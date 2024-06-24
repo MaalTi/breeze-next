@@ -13,7 +13,6 @@ const api = baseReq.extend({
                     .split('; ')
                     .find(row => row.startsWith('XSRF-TOKEN='))
                     .split('=')[1]
-                request.headers.set('X-Requested-With', 'XMLHttpRequest')
                 request.headers.set('Accept-Language', 'fr')
                 request.headers.set('X-XSRF-TOKEN', decodeURIComponent(token))
             }

@@ -69,7 +69,7 @@ const PasswordReset = () => {
                             onChange={event => setPassword(event.target.value)}
                             required
                         />
-                        <button className="absolute flex items-center justify-center w-6 h-6 top-2 right-2" title={showPassword ? 'Masquer' : 'Afficher'} onClick={() => setShowPassword(!showPassword)}>
+                        <button type='button' className="absolute flex items-center justify-center w-6 h-6 top-2 right-2" title={showPassword ? 'Masquer' : 'Afficher'} onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
                         </button>
                     </div>
@@ -91,7 +91,7 @@ const PasswordReset = () => {
                             onChange={event => setPasswordConfirmation(event.target.value)}
                             required
                         />
-                        <button className="absolute flex items-center justify-center w-6 h-6 top-2 right-2" title={showPassword ? 'Masquer' : 'Afficher'} onClick={() => setShowPassword(!showPassword)}>
+                        <button type='button' className="absolute flex items-center justify-center w-6 h-6 top-2 right-2" title={showPassword ? 'Masquer' : 'Afficher'} onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
                         </button>
                     </div>

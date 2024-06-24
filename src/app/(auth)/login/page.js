@@ -80,7 +80,7 @@ const Login = () => {
                             required
                             autoComplete="current-password"
                         />
-                        <button className="absolute flex items-center justify-center w-6 h-6 top-2 right-2" title={showPassword ? 'Masquer' : 'Afficher'} onClick={() => setShowPassword(!showPassword)}>
+                        <button type='button' className="absolute flex items-center justify-center w-6 h-6 top-2 right-2" title={showPassword ? 'Masquer' : 'Afficher'} onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
                         </button>
                     </div>
@@ -102,7 +102,7 @@ const Login = () => {
                     </label>
                 </div>
                 <div className="flex items-center mt-4">
-                    <div className="flex flex-wrap items-center">
+                    <div className="flex flex-wrap items-center gap-2">
                         <Link
                             href="/register"
                             className="text-sm text-gray-600 underline hover:text-gray-900">
