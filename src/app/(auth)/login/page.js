@@ -54,7 +54,7 @@ const Login = () => {
             <form onSubmit={submitForm}>
                 {/* Email Address */}
                 <div>
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">E-mail</Label>
                     <Input
                         id="email"
                         type="email"
@@ -67,11 +67,9 @@ const Login = () => {
                     />
                     <InputError messages={errors.email} className="mt-2" />
                 </div>
-
                 {/* Password */}
                 <div className="mt-4">
-                    <Label htmlFor="password">Password</Label>
-
+                    <Label htmlFor="password">Mot de passe</Label>
                     <div className="relative">
                         <Input
                             id="password"
@@ -88,7 +86,6 @@ const Login = () => {
                     </div>
                     <InputError messages={errors.password} className="mt-2" />
                 </div>
-
                 {/* Remember Me */}
                 <div className="block mt-4">
                     <label
@@ -101,24 +98,23 @@ const Login = () => {
                             className="text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             onChange={event => setShouldRemember(event.target.checked)}
                         />
-                        <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                        <span className="ml-2 text-sm text-gray-600">Rester connecté</span>
                     </label>
                 </div>
-
                 <div className="flex items-center mt-4">
                     <div className="flex flex-wrap items-center">
                         <Link
                             href="/register"
                             className="text-sm text-gray-600 underline hover:text-gray-900">
-                            No account yet?
+                            Pas encore inscrit(e) ?
                         </Link>
                         <Link
                             href="/forgot-password"
                             className="text-sm text-gray-600 underline hover:text-gray-900">
-                            Forgot your password?
+                            Mot de passe oublié ?
                         </Link>
                     </div>
-                    <Button className="ml-3" disabled={loginPending}>{loginPending ? 'Please wait...' : 'Login'}</Button>
+                    <Button className="ml-3" disabled={loginPending}>{loginPending ? 'Veuillez patienter...' : 'Connexion'}</Button>
                 </div>
             </form>
         </>

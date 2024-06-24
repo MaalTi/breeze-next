@@ -14,30 +14,19 @@ const Page = () => {
 
     return (
         <>
-            <div className="mb-4 text-sm text-gray-600">
-                Thanks for signing up! Before getting started, could you verify
-                your email address by clicking on the link we just
-                emailed to you? If you didn't receive the email, we will gladly
-                send you another.
-            </div>
+            <div className="mb-4 text-sm text-gray-600">Afin de valider votre inscription, pourriez-vous vérifier votre adresse e-mail en cliquant sur le lien que nous venons de vous envoyer par e-mail ? Cliquez ci-après si vous n'avez pas reçu l'e-mail (pensez à vérifier les spams).</div>
 
             {status === 'verification-link-sent' && (
-                <div className="mb-4 font-medium text-sm text-green-600">
-                    A new verification link has been sent to the email address
-                    you provided during registration.
-                </div>
+                <div className="mb-4 text-sm font-medium text-green-600">Un nouveau lien de vérification a été envoyé à l'adresse e-mail que vous avez fournie lors de l'inscription.</div>
             )}
 
-            <div className="mt-4 flex items-center justify-between">
-                <Button onClick={() => resendEmailVerification({ setStatus })}>
-                    Resend Verification Email
-                </Button>
-
+            <div className="flex items-center justify-between mt-4">
+                <Button onClick={() => resendEmailVerification({ setStatus })}>Renvoyer l'e-mail de vérification</Button>
                 <button
                     type="button"
-                    className="underline text-sm text-gray-600 hover:text-gray-900"
+                    className="text-sm text-gray-600 underline hover:text-gray-900"
                     onClick={logout}>
-                    Logout
+                    Déconnexion
                 </button>
             </div>
         </>

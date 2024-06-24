@@ -15,7 +15,8 @@ const Page = () => {
         redirectIfAuthenticated: '/dashboard',
     })
 
-    const [name, setName] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
@@ -26,7 +27,7 @@ const Page = () => {
     const toogleTc = event => {
         setTc(event.target.checked)
         if (tc && !errors.length)
-            setErrors({ 'tc': ['You must accept the T&Cs to register'] })
+            setErrors({ 'tc': ['Vous devez accepter les CGU pour vous inscrire'] })
         else
             setErrors([])
     }
@@ -34,37 +35,53 @@ const Page = () => {
         event.preventDefault()
         if (tc)
             register({
-                name,
+                first_name: firstName,
+                last_name: lastName,
                 email,
                 password,
                 password_confirmation: passwordConfirmation,
                 setErrors,
             })
         else
-            setErrors({ 'tc': ['You must accept the T&Cs to register'] })
+            setErrors({ 'tc': ['Vous devez accepter les CGU pour vous inscrire'] })
     }
 
     return (
         <form onSubmit={submitForm}>
-            {/* Name */}
+            {/* First Name */}
             <div>
-                <Label htmlFor="name">Prénom</Label>
+                <Label htmlFor="firstName">Prénom</Label>
                 <Input
-                    id="name"
+                    id="firstName"
                     type="text"
-                    value={name}
+                    value={firstName}
                     className="block w-full mt-1"
-                    onChange={event => setName(event.target.value)}
+                    onChange={event => setFirstName(event.target.value)}
                     required
                     autoFocus
-                    autoComplete="name"
+                    autoComplete="given-name"
                 />
-                <InputError messages={errors.name} className="mt-2" />
+                <InputError messages={errors.first_name} className="mt-2" />
+            </div>
+
+            {/* Last Name */}
+            <div className="mt-4">
+                <Label htmlFor="lastName">Nom</Label>
+                <Input
+                    id="lastName"
+                    type="text"
+                    value={lastName}
+                    className="block w-full mt-1"
+                    onChange={event => setLastName(event.target.value)}
+                    required
+                    autoComplete="family-name"
+                />
+                <InputError messages={errors.last_name} className="mt-2" />
             </div>
 
             {/* Email Address */}
             <div className="mt-4">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">E-mail</Label>
                 <Input
                     id="email"
                     type="email"
@@ -79,7 +96,7 @@ const Page = () => {
 
             {/* Password */}
             <div className="mt-4">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Mot de passe</Label>
                 <div className="relative">
                     <Input
                         id="password"
@@ -99,7 +116,7 @@ const Page = () => {
 
             {/* Confirm Password */}
             <div className="mt-4">
-                <Label htmlFor="passwordConfirmation">Confirm Password</Label>
+                <Label htmlFor="passwordConfirmation">Confirmer le mot de passe</Label>
                 <div className="relative">
                     <Input
                         id="passwordConfirmation"
@@ -127,7 +144,7 @@ const Page = () => {
                         className="text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         onChange={event => toogleTc(event)}
                     />
-                    <span className="ml-2 text-sm text-gray-600">I accept this website's T&Cs.</span>
+                    <span className="ml-2 text-sm text-gray-600">J'accepte les CGU de ce site.</span>
                 </label>
                 <InputError messages={errors.tc} className="mt-2" />
             </div>
@@ -139,7 +156,7 @@ const Page = () => {
                     Already registered?
                 </Link>
 
-                <Button className="ml-4" disabled={registerPending}>{registerPending ? 'Please wait...' : 'Register'}</Button>
+                <Button className="ml-4" disabled={registerPending}>{registerPending ? 'Veuillez patienter...' : 'Inscription'}</Button>
             </div>
         </form>
     )

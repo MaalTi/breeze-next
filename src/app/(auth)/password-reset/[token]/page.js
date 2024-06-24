@@ -42,11 +42,10 @@ const PasswordReset = () => {
         <>
             {/* Session Status */}
             <AuthSessionStatus className="mb-4" status={status} />
-
             <form onSubmit={submitForm}>
                 {/* Email Address */}
                 <div>
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">E-mail</Label>
                     <Input
                         id="email"
                         type="email"
@@ -58,10 +57,9 @@ const PasswordReset = () => {
                     />
                     <InputError messages={errors.email} className="mt-2" />
                 </div>
-
                 {/* Password */}
                 <div className="mt-4">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">Mot de passe</Label>
                     <div className="relative">
                         <Input
                             id="password"
@@ -83,18 +81,14 @@ const PasswordReset = () => {
 
                 {/* Confirm Password */}
                 <div className="mt-4">
-                    <Label htmlFor="passwordConfirmation">
-                        Confirm Password
-                    </Label>
+                    <Label htmlFor="passwordConfirmation">Confirmer le mot de passe</Label>
                     <div className="relative">
                         <Input
                             id="passwordConfirmation"
                             type={showPassword ? "text" : "password"}
                             value={passwordConfirmation}
                             className="block w-full mt-1"
-                            onChange={event =>
-                                setPasswordConfirmation(event.target.value)
-                            }
+                            onChange={event => setPasswordConfirmation(event.target.value)}
                             required
                         />
                         <button className="absolute flex items-center justify-center w-6 h-6 top-2 right-2" title={showPassword ? 'Masquer' : 'Afficher'} onClick={() => setShowPassword(!showPassword)}>
@@ -107,7 +101,7 @@ const PasswordReset = () => {
                     />
                 </div>
                 <div className="flex items-center justify-end mt-4">
-                    <Button>Reset Password</Button>
+                    <Button>Réinitialiser le mot de passe</Button>
                 </div>
             </form>
         </>
