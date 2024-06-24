@@ -1,0 +1,40 @@
+#!/bin/bash
+WHITERED='\033[37;41m'
+WHITEGREEN='\033[37;42m'
+NOSTYLE='\033[0m'
+gonext=true
+while $gonext; do
+  echo "Set up build script ? (y/n)"
+  read -rp "> " yn
+  case $yn in
+  [Yy]*)
+    echo "Build script name ?"
+    read -rp "> " exscript
+    gonext=false
+    ;;
+  [Nn]*)
+    gonext=false
+    ;;
+  *) echo -e "${WHITERED}Please make a valid choice! (y/n)${NOSTYLE}" ;;
+  esac
+done
+if [ -f "yarn.lock" ] && { [ "$(npm list -g | grep -c yarn)" -eq 0 ] || [ -d "$HOME/.cache/node/corepack/yarn" ] || [ ! -d "%LOCALAPPDATA%\node\corepack\yarn" ]; }; then
+  yarn cache clean --all
+  yarn upgrade
+  if [[ "$yn" =~ ^Y.*|^y.* ]]; then
+    yarn "$exscript"
+  fi
+elif [ -f "pnpm-lock.yaml" ] && { [ "$(npm list -g | grep -c pnpm)" -eq 0 ] || [ -d "$HOME/.cache/node/corepack/pnpm" ] || [ ! -d "%LOCALAPPDATA%\node\corepack\pnpm" ]; }; then
+  pnpm update
+  pnpm prune
+  if [[ "$yn" =~ ^Y.*|^y.* ]]; then
+    pnpm "$exscript"
+  fi
+else
+  npm cache clean --force
+  npm update
+  if [[ "$yn" =~ ^Y.*|^y.* ]]; then
+    npm run-script "$exscript"
+  fi
+fi
+echo -e "${WHITEGREEN}Your project is now fresh and updated !${NOSTYLE}"

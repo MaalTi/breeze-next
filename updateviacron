@@ -1,0 +1,66 @@
+#!/bin/bash
+####################################################
+## ASSUMING COMPOSER PHP AND NODE ARE SET IN PATH ##
+####################################################
+WHITERED='\033[37;41m'
+WHITEGREEN='\033[37;42m'
+WHITECYAN='\033[37;46m'
+NOSTYLE='\033[0m'
+help() {
+    echo -e "\nUsage: cronableupdate [ -b | --build ](optionnal <compiling script name> as arg)\n[ -h | --help  ]"
+    exit 2
+}
+update() {
+    command -v node >/dev/null 2>&1 || {
+        echo -e "${WHITECYAN}Node isn't installed, skipping...${NOSTYLE}" >&2
+        return 1
+    }
+    if [ -f "yarn.lock" ] && { [ "$(npm list -g | grep -c yarn)" -eq 0 ] || [ -d "$HOME/.cache/node/corepack/yarn" ] || [ ! -d "%LOCALAPPDATA%\node\corepack\yarn" ]; }; then
+        yarn cache clean --all
+        yarn upgrade
+        if [ -n "$exscript" ]; then
+            yarn "$exscript"
+        fi
+    elif [ -f "pnpm-lock.yaml" ] && { [ "$(npm list -g | grep -c pnpm)" -eq 0 ] || [ -d "$HOME/.cache/node/corepack/pnpm" ] || [ ! -d "%LOCALAPPDATA%\node\corepack\pnpm" ]; }; then
+        pnpm update
+        pnpm prune
+        if [ -n "$exscript" ]; then
+            pnpm "$exscript"
+        fi
+    else
+        npm cache clean --force
+        npm update
+        if [ -n "$exscript" ]; then
+            npm run-script "$exscript"
+        fi
+    fi
+    echo -e "${WHITEGREEN}Update finished !${NOSTYLE}"
+}
+SHORT=b:,h
+LONG=build:,help
+OPTS=$(getopt -a -n cronableupdate --options $SHORT --longoptions $LONG -- "$@")
+VALID_ARGUMENTS=$#
+if [ "$VALID_ARGUMENTS" -eq 0 ]; then
+    update
+fi
+eval set -- "$OPTS"
+while :; do
+    case "$1" in
+    -b | --build)
+        exscript="$2"
+        update
+        shift 2
+        ;;
+    -h | --help)
+        help
+        ;;
+    --)
+        shift
+        break
+        ;;
+    *)
+        echo "${WHITERED}Unexpected option: '$1'${NOSTYLE}"
+        help
+        ;;
+    esac
+done

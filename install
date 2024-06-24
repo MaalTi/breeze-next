@@ -1,0 +1,86 @@
+#!/bin/bash
+WHITERED='\033[37;41m'
+WHITEGREEN='\033[37;42m'
+WHITECYAN='\033[37;46m'
+YELLOW='\033[33m'
+NOSTYLE='\033[0m'
+if [ ! -f ".env.local" ]; then
+    case "$OSTYPE" in
+    darwin* | linux*)
+        cp .env.example .env.local
+        ;;
+    msys*)
+        copy .env.example .env.local
+        ;;
+    *)
+        echo -e "${WHITERED} $OSTYPE not supported. Exiting...${NOSTYLE}"
+        exit 1
+        ;;
+    esac
+fi
+yopack() {
+    command -v node >/dev/null 2>&1 || {
+        echo -e "${WHITECYAN}Node isn't installed, skipping...${NOSTYLE}" >&2
+        return 1
+    }
+    while true; do
+        echo -e "${YELLOW}Choose your preferred Node package manager :\n> [y]arn\n> [p]npm\n> [n]pm${NOSTYLE}"
+        read -rp "> " ypn
+        case $ypn in
+        [Yy]*)
+            yarninst
+            break
+            ;;
+        [Pp]*)
+            pnpminst
+            break
+            ;;
+        [Nn]*)
+            npminst
+            break
+            ;;
+        *) echo -e "${WHITERED}A valid choice is mandatory to go further.${NOSTYLE}" ;;
+        esac
+    done
+}
+yarninst() {
+    if [ "$(npm list -g | grep -c yarn)" -eq 0 ] || [ -d "$HOME/.cache/node/corepack/yarn" ] || [ -d "%LOCALAPPDATA%\node\corepack\yarn" ]; then
+        echo "OK, Let's go with Yarn"
+        yarn cache clean --all
+        yarn
+    else
+        badpack
+    fi
+}
+pnpminst() {
+    if [ "$(npm list -g | grep -c pnpm)" -eq 0 ] || [ -d "$HOME/.cache/node/corepack/pnpm" ] || [ -d "%LOCALAPPDATA%\node\corepack\pnpm" ]; then
+        echo "OK, Let's go with PNPM"
+        pnpm i
+    else
+        badpack
+    fi
+}
+npminst() {
+    echo "Installing node dependencies, please wait..."
+    npm cache clean --force
+    npm i
+}
+badpack() {
+    while true; do
+        echo -e "${WHITERED}The chosen manager does not seem to be installed.\n> Try with [n]pm\n> Or [b]ack to selection${NOSTYLE}"
+        read -rp "> " nb
+        case $nb in
+        [Nn]*)
+            npminst
+            break
+            ;;
+        [Bb]*)
+            yopack
+            break
+            ;;
+        *) echo -e "${WHITERED}A valid choice is mandatory to go further.\nYou can cancel installation and exit script with 'CTRL+C'.${NOSTYLE}" ;;
+        esac
+    done
+}
+yopack
+echo -e "${WHITEGREEN}All done ! Finish setting your .env.local file and/or your config files to finalize installation.\nDon't forget to check that evrything is OK and run smoothly.\nHappy coding !${NOSTYLE}"
